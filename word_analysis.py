@@ -17,7 +17,6 @@ def remove_special_characters(texts):
     texts = re.sub(
         '[-+=,#/\?:^$!@%&()~]', '', texts
     )
-    texts = re.sub('[0-9]+', '', texts)
     return texts
 
 
@@ -30,7 +29,7 @@ def word_analysis(str):
     index = 0
     count_ = []
     for v in noun_list:
-        if len(v[0]) >= 2:
+        if len(v[0]) >= 1:
             index = index + 1
             count_.append(v)
             if index >= 10:
