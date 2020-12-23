@@ -62,7 +62,6 @@ class twitter:
         for tweet in tweepy.Cursor(self.api.search, q=keyword, lang='ko', include_entities=False).items(10):
             if "RT" not in tweet.text:
                 line = [keyword, str(tweet.created_at), tweet.text]
-                # line.append(핵심단어)
                 self.result_file.append(line)
         self.trends_count += 1
         print(f"keyword : {keyword} search done!")

@@ -20,6 +20,5 @@ if __name__ == '__main__':
             for i in range(len(dataframe) - 10):
                 trends.append(dataframe.iloc[i, 0])
             tweet.init_work(trends)
-
         else:
             break
