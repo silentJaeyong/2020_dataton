@@ -45,19 +45,20 @@ def word_analysis(str):
 
     return count_
 
+def make_data_set(ds_):#csv파일 넣기
+    # ds=pd.read_csv('/content/drive/MyDrive/Colab Notebooks/result.tsv', delimiter='\t')
+    ds = ds_
+    data = ds.iloc[:, 3]
+    
+    for i in range(len(data)):
+        texts = data[i]
+        word_list = word_analysis(texts)  # 텍스트 분석해서 키워드 추출
+        text=""
+        for j in word_list:
+          text=text+j[0]+","
+        # print(text)
 
-ds = pd.read_csv('/content/drive/MyDrive/Colab Notebooks/result.tsv', delimiter='\t')
-data = ds.iloc[:, 3]
+        ds.loc[i, 'words'] = text
 
-for i in range(len(data)):
-    texts = data[i]
-    word_list = word_analysis(texts)  # 텍스트 분석해서 키워드 추출
-    text=""
-    for j in word_list:
-      text=text+j[0]+","
-    # print(text)
-
-    ds.loc[i, 'words'] = text
-
-ds.to_csv('/content/drive/MyDrive/Colab Notebooks/result_word.tsv', index=False, sep="\t")
+    ds.to_csv('/content/drive/MyDrive/Colab Notebooks/result_word.tsv', index=False, sep="\t")
 
