@@ -2,11 +2,14 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import tweepy
 import threading
+import time
+import pandas as pd
 
 
 class twitter:
     api = None
     result_file = []
+    trends_count = 0
 
     def __init__(self):
         consumer_key = 'MEkO26YccoCAZLzKnYtY9zpHZ'
@@ -17,7 +20,7 @@ class twitter:
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
         auth.set_access_token(access_token, access_secret)
 
-        self.api = tweepy.API(auth)
+        self.api = tweepy.API(auth, wait_on_rate_limit=True)
         print('twitter API connected!')
 
     def trends(self, url):
@@ -48,11 +51,18 @@ class twitter:
         for trend in trends:
             t = threading.Thread(target=self.search_keyword, args=(trend,))
             t.start()
+        while self.trends_count != len(trends):
+            time.sleep(5)
+        result = pd.DataFrame(self.result_file, columns=['keyword', 'posted_time', 'text', 'primary words'])
+        result.to_csv('result.tsv', index=False, sep="\t")
+        print("Searching job done!!!")
 
     def search_keyword(self, keyword: str):
-        for tweet in tweepy.Cursor(self.api.search, q=keyword, lang='ko', include_entities=False).items(10000):
+        print(f"keyword : {keyword} search start...")
+        for tweet in tweepy.Cursor(self.api.search, q=keyword, lang='ko', include_entities=False).items(10):
             if "RT" not in tweet.text:
                 line = [keyword, str(tweet.created_at), tweet.text]
                 # line.append(핵심단어)
                 self.result_file.append(line)
+        self.trends_count += 1
         print(f"keyword : {keyword} search done!")
