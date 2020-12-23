@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 def trends(URL):
     # 여기 경로는 각자 selenium chrome path로 설정하면 됨. 동봉한 driver 참고
-    driver = webdriver.Chrome(executable_path='C:/Users/SeoKyung/Desktop/말없는재용이/2020_dataton/chromedriver.exe')
+    driver = webdriver.Chrome(executable_path='C:/Users/kimsr/git/2020_dataton/chromedriver.exe')
     # selenium이 웹 자원이 로드될 때 (3초)까지 기다려줌.
     driver.implicitly_wait(3)
     # chrome 페이지 open
