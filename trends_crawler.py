@@ -16,14 +16,10 @@ def trends(URL):
     soup = BeautifulSoup(html, 'lxml')
     trends = soup.select('td.main > a')
     # 따온 데이터를 text화 해서 각각 나타내기
-    trends_arr = list()
+    trends_arr = []
     for i in trends:
         tmp = i.get_text()
         trends_arr.append(tmp)
         print(tmp)
     # 창 닫기
     driver.close()
-
-
-if __name__ == '__main__':
-    trends('https://getdaytrends.com/ko/korea/')
